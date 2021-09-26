@@ -3,6 +3,19 @@ const { Schema, model } = mongoose;
 
 const notAnoCrimeSchema = Schema(
   {
+    name: {
+      type: String,
+      required: true,
+    },
+    phoneNo: {
+      type: Number,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     typeOfCrime: {
       type: String,
       required: true,
@@ -17,29 +30,26 @@ const notAnoCrimeSchema = Schema(
     },
     district: {
       type: String,
-      trim: true,
       required: true,
     },
-    reason: {
+    policeStation: {
       type: String,
-      trim: true,
       required: true,
     },
     additionalInfo: {
       type: String,
+      required: true,
       trim: true,
     },
-    suspectName: {
+    susName: {
       type: String,
-      trim: true,
     },
     nearbyNGO: {
       type: String,
       required: true,
     },
-    uploadFile: {
-      type: file,
-      required: true,
+    photographSus: {
+      type: Buffer,
     },
     susInfo: {
       type: String,

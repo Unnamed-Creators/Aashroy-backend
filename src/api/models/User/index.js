@@ -6,19 +6,46 @@ const { Schema, model } = mongoose;
 const jwt = require("jsonwebtoken");
 
 const userSchema = Schema({
-  name: {
+  firstName: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  lastName: {
     type: String,
     trim: true,
     required: true,
   },
   email: {
     type: String,
-    trim: true,
     required: true,
+    trim: true,
+  },
+  address: {
+    type: String,
+    required: true,
+    trim: true,
   },
   password: {
     type: String,
     required: true,
+  },
+  country: {
+    value: {
+      type: String,
+      required: true,
+    },
+    label: {
+      type: String,
+      required: true,
+    },
+  },
+  phoneNumber: {
+    type: Number,
+    required: true,
+  },
+  otp: {
+    type: String,
   },
 });
 
@@ -62,3 +89,5 @@ userSchema.pre("save", async function (next) {
 });
 
 module.exports = User = model("User", userSchema);
+
+// cryptography -> computer networks

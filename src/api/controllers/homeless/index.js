@@ -1,44 +1,32 @@
-const { AnoCrime } = require("../../models");
+const { Homeless } = require("../../models");
 
 const { serverError } = require("../../utils");
 const upload = require("../../utils/fileUpload");
-const anoCrimeController = {
-  createCrime: async (req, res) => {
+const homelessCOntroller = {
+  createHomeless: async (req, res) => {
     try {
-      const {
-        crime,
-        Date,
-        State,
+      const { NeighbourhoodName, Landmark, CityTown, District, State } =
+        req.body;
+      const homeless = new Homeless({
+        NeighbourhoodName,
+        Landmark,
+        CityTown,
         District,
-        Reason,
-        AdditionalInfo,
-        SuspectName,
-        NearbyNGO,
-        SusInfo,
-      } = req.body;
-      const anoCrime = new AnoCrime({
-        typeOfCrime: crime,
-        dateOfCrime: Date,
-        state: State,
-        district: District,
-        reason: Reason,
-        additionalInfo: AdditionalInfo,
-        suspectName: SuspectName,
-        susInfo: SusInfo,
-        nearbyNGO: NearbyNGO,
+        State,
       });
-      await anoCrime.save();
+      await homeless.save();
       res.status(200).json({ message: "Complaint Filed" });
     } catch (error) {
       console.log(error.message);
     }
   },
 
-  getCrime: async (req, res) => {
+  getHomeless: async (req, res) => {
     try {
-      const crimes = await AnoCrime.find();
-      if (!crimes) res.send({ message: "Crimes not found!" });
-      else res.json({ crimes });
+      const homeless = await Homeless.find();
+      if (!homeless || !homeless.length)
+        res.send({ message: "Result not found!" });
+      else res.json({ homeless });
     } catch (error) {
       res.status(505).send({ message: "Internal Server Error" });
       console.log(error.message);
@@ -53,10 +41,10 @@ const anoCrimeController = {
   //       }
   //   },
 
-  deleteCrime: async (req, res) => {
+  deleteHomeless: async (req, res) => {
     try {
       const id = req.params._id;
-      await AnoCrime.findByIdAndDelete(id);
+      await Homeless.findByIdAndDelete(id);
       res.send({ message: "Complaint Deleted" });
     } catch (error) {
       res.send({ message: "Internal Server Error" });
@@ -84,4 +72,4 @@ const anoCrimeController = {
   // },
 };
 
-module.exports = anoCrimeController;
+module.exports = homelessCOntroller;

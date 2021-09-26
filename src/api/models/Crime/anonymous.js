@@ -39,7 +39,7 @@ const anoCrimeSchema = Schema(
     },
     uploadFile: {
       type: String,
-      required: true,
+      // required: true,
     },
     susInfo: {
       type: String,

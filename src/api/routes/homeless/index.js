@@ -1,15 +1,15 @@
 const express = require("express");
 const upload = require("../../utils/fileUpload");
-const { notAnoCrimeController } = require("../../controllers");
-const { createNotAnoCrime, getNotAnoCrime } = notAnoCrimeController;
+const { homelessController } = require("../../controllers");
+const { createHomeless, getHomeless } = homelessController;
 
 const router = new express.Router();
 
 /* @get */
-router.get("/", getNotAnoCrime);
+router.get("/", getHomeless);
 
 /* @post */
-router.post("/fileComplaint", upload.single("upload"), createNotAnoCrime);
+router.post("/report", upload.single("upload"), createHomeless);
 // router.post("/crimeDuration", crimeDuration);
 
 /* @patch */

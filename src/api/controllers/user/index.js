@@ -4,24 +4,63 @@ const {
     serverError
 } = require('../../utils')
 
+const { cookieConfig } = require('../../middlewares')
+
 const userController = {
      
     createUser : async ( req, res, next )=>{
         
         try {
+
+            const existUser = await User.findOne({email : req.body.email})
             
-            const user = await User.create(
-                req.body
-            ) 
-    
+            if(existUser){
+                return res.status(404).json({
+                    error : 'User already exists with this email!!'
+                })
+            }
+             
+            const user = await User(req.body)
+
             await user.save()
-    
+
+            const token = await user.generateAuthToken()
+
+            res.cookie('auth_abedon',token , cookieConfig )
+  
             res.status(200).json({
-                user,
-                msg : 'User Created!'
+                 msg : 'Registration Successful!!',
+                 user
             })
         } catch (error) {
             
+            res.status(500).json(serverError)
+        }
+    },
+
+    loginUser : async ( req, res, next )=>{
+
+        try {
+            
+            const { email , password } = req.body
+
+            const user = await User.findByCredentials( email , password )
+
+            if(!user){
+                return res.status(400).json({
+                    error:'Invalid Credentials',
+                })
+            }
+
+            const token = await user.generateAuthToken()
+           
+            res.cookie('auth_abedon',token , cookieConfig )
+
+            res.status(200).json({
+                msg:'Login Successful',
+                user
+            })
+        } catch (error) {
             res.status(500).json(serverError)
         }
     },
