@@ -135,6 +135,12 @@ const NGOSchema = Schema({
     type: String,
     required: true,
   },
+   upiID:{
+    type:String,
+    required: true,
+    trim:true,
+
+  },
 });
 
 // methods and statics
